@@ -1,10 +1,39 @@
 # ecoledirecte.js &middot; ![GitHub](https://img.shields.io/github/license/a2br/ecoledirecte.js) ![npm](https://img.shields.io/npm/v/ecoledirecte.js) ![npm](https://img.shields.io/npm/dw/ecoledirecte.js)
 
+> This is a fork of ecoledirecte.js 
+
 > ⚠ **As of August 8, 2023, this module is no longer maintained**: This means that although the module is perfectly functioning, I will not update it to comply to future EcoleDirecte API changes. The module may fail to fetch or send data. I would greatly appreciate PRs for feature requests / bug patches, as I no longer have the time to work on this project. Thank you.
 
 Browse EcoleDirecte's private API with ED.js, an unofficial API client.
 
 `ed.js` is a Promise-based module, built on TypeScript for a better IntelliSense and type-guarded features.
+
+## New features 
+
+> A2F method has only been tested with a student account. It's not guarranted to work for other types of account
+
+This fork implements the new A2F method. 
+
+In addition with the basic credentials needed for the Session, you will need to add an object with the questions and for each one the corresponding answer.
+
+```typescript 
+import { Session } from "ecoledirecte.js";
+
+// Create a new Session.
+const session = new Session("identifiant", "motdepasse");
+
+// A2F objet
+const A2FParams = {
+	"question": "answer",
+	"What is your day of birth ?": "25"
+	// ...
+};
+
+// Bring your session to life!
+const account = await session.login(A2FParams).catch(err => {
+	console.error("This login did not go well.");
+});
+```
 
 ## Examples
 
@@ -47,11 +76,13 @@ events.on("request", ({ method, url }) => console.log(method, url));
 // POST https://api.ecoledirecte.com/v3/eleves/4179/timeline.awp
 // ...
 ```
+## Full Ecole Directe API docs
 
+See [ecoledirecte-api-docs](https://github.com/EduWireApps/ecoledirecte-api-docs?tab=readme-ov-file#-concernant-la-connexion-qcm) (unofficial docs)
 ## Dependencies walkthrough
 
 | Dependency                                                                     | Description                                                                                       |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
 | [node-fetch](https://www.npmjs.com/package/node-fetch)                         | A light-weight module that brings window.fetch to Node.js                                         |
 | [html-to-text](https://www.npmjs.com/package/html-to-text)                     | Converter that parses HTML and returns text.                                                      |
-| [ecoledirecte-api-types](https://www.npmjs.com/package/ecoledirecte-api-types) | Module that maps the routes and types related to EcoleDirecte's API. Originally a part of `ed.js` |
+| [ecoledirecte-api-types](https://www.npmjs.com/package/ecoledirecte-api-types) | Custom Module that maps the routes and types related to EcoleDirecte's API. Originally a part of `ed.js` |
